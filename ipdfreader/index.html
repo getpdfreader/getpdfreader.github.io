@@ -35,6 +35,10 @@
     100% { background-position: 0% 50%; }
   }
 
+  body.dark header {
+    background: linear-gradient(135deg, #330000, #660000);
+  }
+
   header h1 {
     margin: 0;
     font-size: 36px;
@@ -42,7 +46,6 @@
     color: #fff;
   }
 
-  /* ===== App Store 按钮 ===== */
   .store-btn-container {
     margin-top: 40px; /* 控制标题和按钮之间的距离 */
   }
@@ -56,20 +59,32 @@
     transform: translateY(-2px) scale(1.03);
   }
 
-  /* ===== 夜间模式按钮 ===== */
-  .dark-mode-toggle {
+  /* ===== 夜间模式 & 语言选择 ===== */
+  .top-controls {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
+    top: 18px;
+    right: 18px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .dark-mode-toggle,
+  .lang-select {
+    background: rgba(255,255,255,0.8);
     border: 2px solid #fff;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    color: #000;  /* 改成黑色文字 */
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 18px;
-    color: #fff;
+    font-size: 14px;
+    padding: 6px 10px;
     transition: all 0.3s;
+  }
+
+
+  .dark-mode-toggle:hover,
+  .lang-select:hover {
+    background: rgba(255, 255, 255, 0.12);
   }
 
   /* ===== 主要内容 Hero 区 ===== */
@@ -77,6 +92,10 @@
     text-align: center;
     padding: 20px 20px 10px;
   }
+
+  .hero h1 { margin: 8px 0 6px; font-size: 24px; }
+  .hero p { margin: 0; color: rgba(0,0,0,0.65); }
+  body.dark .hero p { color: rgba(255,255,255,0.85); }
 
   /* ===== 轮播区 ===== */
   .carousel {
@@ -146,25 +165,25 @@
   }
 
   .features li {
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.95);
     padding: 15px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     text-align: center;
     transition: background 0.3s;
   }
 
   body.dark .features li {
-    background: rgba(30,30,30,0.9);
+    background: rgba(30,30,30,0.92);
   }
 
   /* ===== 用户评论区 ===== */
   .reviews .review {
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.95);
     margin: 15px 0;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     display: flex;
     align-items: flex-start;
     gap: 15px;
@@ -187,22 +206,22 @@
   }
 
   body.dark .reviews .review {
-    background: rgba(30,30,30,0.9);
+    background: rgba(30,30,30,0.92);
   }
 
   /* ===== 页脚 ===== */
   footer {
-  text-align: center;
-  padding: 30px 20px;
-  font-size: 14px;
-  background: linear-gradient(135deg, #7b001e, #4c0014);
-  color: #fff;
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 14px;
+    background: linear-gradient(135deg, #7b001e, #4c0014);
+    color: #fff;
   }
 
   footer a {
     color: #ffd2d2;
     text-decoration: none;
-     font-weight: bold;
+    font-weight: bold;
   }
 
   footer a:hover {
@@ -217,47 +236,57 @@
     background: linear-gradient(135deg, #33000b, #200008);
   }
 
-  body.dark header {
-  background: linear-gradient(135deg, #330000, #660000);
-}
-</style>
-
+  /* small screens */
+  @media (max-width:600px){
+    header h1 { font-size: 22px; }
+    .features ul { grid-template-columns: 1fr; }
+    .store-btn-container img { height: 48px; }
+    .top-controls { right: 12px; gap: 6px; }
+  }
+  </style>
 </head>
 <body>
   <header>
-    <h1>📄 PDF Reader - Editor & Scanner</h1>
+    <div class="top-controls">
+      <select class="lang-select" id="langSelect" aria-label="Language select">
+        <option value="zh">🇨🇳 中文</option>
+        <option value="en">🇺🇸 English</option>
+      </select>
+      <button class="dark-mode-toggle" id="darkToggle" aria-label="Toggle dark mode">🌙</button>
+    </div>
+
+    <h1 id="appTitle">📄 PDF Reader - Editor & Scanner</h1>
     <div class="store-btn-container">
-        <a href="https://apps.apple.com/us/app/pdf-reader-editor-scanner/id6739480825" target="_blank" style="display:inline-block;">
+        <a href="https://apps.apple.com/us/app/pdf-reader-editor-scanner/id6739480825" target="_blank" rel="noopener">
             <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83"
                 alt="Download on the App Store"
                 style="height: 50px;">
         </a>
     </div>
-    <button class="dark-mode-toggle">🌙</button>
   </header>
 
   <section class="hero">
-    <h1>高效阅读·智能扫描·AI编辑</h1>
-    <p>一站式文件管理神器：阅读、扫描、转换、编辑、签名、分享，一切尽在掌握！</p>
+    <h1 id="heroTitle">高效阅读·智能扫描·AI编辑</h1>
+    <p id="heroText">一站式文件管理神器：阅读、扫描、转换、编辑、签名、分享，一切尽在掌握！</p>
   </section>
 
   <section class="carousel">
-    <button class="prev">❮</button>
-    <img src="1.png" class="active" alt="截图1">
-    <img src="2.png" alt="截图2">
-    <img src="3.png" alt="截图3">
-    <img src="4.png" alt="截图4">
-    <img src="5.png" alt="截图5">
-    <img src="6.png" alt="截图6">
-    <img src="7.png" alt="截图7">
-    <img src="8.png" alt="截图8">
-    <img src="9.png" alt="截图9">
-    <button class="next">❯</button>
+    <button class="prev" aria-label="prev">❮</button>
+    <img src="image/1.png" class="active" alt="截图1">
+    <img src="image/2.png" alt="截图2">
+    <img src="image/3.png" alt="截图3">
+    <img src="image/4.png" alt="截图4">
+    <img src="image/5.png" alt="截图5">
+    <img src="image/6.png" alt="截图6">
+    <img src="image/7.png" alt="截图7">
+    <img src="image/8.png" alt="截图8">
+    <img src="image/9.png" alt="截图9">
+    <button class="next" aria-label="next">❯</button>
   </section>
 
   <section class="features">
-    <h2>✨ 功能亮点</h2>
-    <ul>
+    <h2 id="featuresTitle">✨ 功能亮点</h2>
+    <ul id="featureList">
       <li>📘 智能阅读：流畅阅读PDF，支持夜间模式和AI摘要</li>
       <li>📷 AI扫描：自动识别边框与文字，轻松生成高清PDF</li>
       <li>📝 PDF编辑：添加注释、填写表单、签名与标记</li>
@@ -268,63 +297,159 @@
   </section>
 
   <section class="reviews">
-    <h2>💬 用户评论</h2>
+    <h2 id="reviewTitle">💬 用户评论</h2>
     <div class="review">
       <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="用户1">
       <div class="review-content">
         <div class="stars">★★★★★</div>
-        <p>“扫描功能太强了！文件识别又快又清晰，非常方便。”</p>
+        <p id="review1">“扫描功能太强了！文件识别又快又清晰，非常方便。”</p>
       </div>
     </div>
     <div class="review">
       <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户2">
       <div class="review-content">
         <div class="stars">★★★★★</div>
-        <p>“可以直接编辑PDF和签名，办公效率提升不少。”</p>
+        <p id="review2">“可以直接编辑PDF和签名，办公效率提升不少。”</p>
       </div>
     </div>
     <div class="review">
       <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="用户3">
       <div class="review-content">
         <div class="stars">★★★★★</div>
-        <p>“云同步功能很好用，iPhone和iPad切换都无缝。”</p>
+        <p id="review3">“云同步功能很好用，iPhone和iPad切换都无缝。”</p>
       </div>
     </div>
   </section>
 
   <footer>
     <div class="contact">
-        <h3>📩 联系我们</h3>
-        <p>如有问题或建议，请发送邮件至：<a href="mailto:pdfreader.feedback@outlook.com">pdfreader.feedback@outlook.com</a></p>
+        <h3 id="contactTitle">📩 联系我们</h3>
+        <p id="contactText">如有问题或建议，请发送邮件至：<a href="mailto:pdfreader.feedback@outlook.com">pdfreader.feedback@outlook.com</a></p>
     </div>
     <br>
-    <p>© 2025 PDF Reader - Editor & Scanner 版权所有</p>
+    <p id="copyright">© 2025 PDF Reader - Editor & Scanner 版权所有</p>
   </footer>
 
   <script>
-    const toggleBtn = document.querySelector('.dark-mode-toggle');
-    toggleBtn.addEventListener('click', () => {
+    // 深色模式切换
+    const darkToggle = document.getElementById('darkToggle');
+    darkToggle.addEventListener('click', () => {
       document.body.classList.toggle('dark');
     });
 
+    // 轮播逻辑（自动 + 手动）
     const images = document.querySelectorAll('.carousel img');
     let index = 0;
     function showImage(i) {
       images.forEach(img => img.classList.remove('active'));
       images[i].classList.add('active');
     }
-    setInterval(() => {
+    let carouselTimer = setInterval(() => {
       index = (index + 1) % images.length;
       showImage(index);
     }, 4000);
     document.querySelector('.prev').addEventListener('click', () => {
+      clearInterval(carouselTimer);
       index = (index - 1 + images.length) % images.length;
       showImage(index);
+      carouselTimer = setInterval(() => { index = (index + 1) % images.length; showImage(index); }, 4000);
     });
     document.querySelector('.next').addEventListener('click', () => {
+      clearInterval(carouselTimer);
       index = (index + 1) % images.length;
       showImage(index);
+      carouselTimer = setInterval(() => { index = (index + 1) % images.length; showImage(index); }, 4000);
     });
+
+    // 多语言数据（可继续扩展）
+    const langData = {
+      zh: {
+        appTitle: "📄 PDF Reader - Editor & Scanner",
+        heroTitle: "高效阅读·智能扫描·AI编辑",
+        heroText: "一站式文件管理神器：阅读、扫描、转换、编辑、签名、分享，一切尽在掌握！",
+        featuresTitle: "✨ 功能亮点",
+        featureList: [
+          "📘 智能阅读：流畅阅读PDF，支持夜间模式和AI摘要",
+          "📷 AI扫描：自动识别边框与文字，轻松生成高清PDF",
+          "📝 PDF编辑：添加注释、填写表单、签名与标记",
+          "🔄 格式转换：Word、Excel、Pdf、图片一键互转",
+          "☁️ 云端管理：支持Google Drive与OneDrive同步",
+          "🧠 AI功能：智能摘要、自动分类、OCR文字识别"
+        ],
+        reviewTitle: "💬 用户评论",
+        reviews: [
+          "“扫描功能太强了！文件识别又快又清晰，非常方便。”",
+          "“可以直接编辑PDF和签名，办公效率提升不少。”",
+          "“云同步功能很好用，iPhone和iPad切换都无缝。”"
+        ],
+        contactTitle: "📩 联系我们",
+        contactText: "如有问题或建议，请发送邮件至：<a href='mailto:pdfreader.feedback@outlook.com'>pdfreader.feedback@outlook.com</a>",
+        copyright: "© 2025 PDF Reader - Editor & Scanner 版权所有"
+      },
+      en: {
+        appTitle: "📄 PDF Reader - Editor & Scanner",
+        heroTitle: "Efficient Reading · Smart Scanning · AI Editing",
+        heroText: "All-in-one document solution: read, scan, convert, edit, sign, and share — all in one app!",
+        featuresTitle: "✨ Key Features",
+        featureList: [
+          "📘 Smart Reading: smooth PDF viewing with night mode & AI summary",
+          "📷 AI Scan: auto-detect edges & text, generate clear PDFs easily",
+          "📝 PDF Editing: annotate, fill forms, sign, and highlight",
+          "🔄 Format Conversion: Word, Excel, PDF and image conversion",
+          "☁️ Cloud Sync: supports Google Drive and OneDrive",
+          "🧠 AI Tools: OCR, auto classification, and document summary"
+        ],
+        reviewTitle: "💬 User Reviews",
+        reviews: [
+          "“Powerful scanning! Fast and accurate recognition.”",
+          "“Editing and signing PDFs is so convenient for work.”",
+          "“Cloud sync works perfectly across my iPhone and iPad.”"
+        ],
+        contactTitle: "📩 Contact Us",
+        contactText: "For questions or feedback, email us at: <a href='mailto:pdfreader.feedback@outlook.com'>pdfreader.feedback@outlook.com</a>",
+        copyright: "© 2025 PDF Reader - Editor & Scanner All Rights Reserved"
+      }
+    };
+
+    // 语言选择处理
+    const select = document.getElementById('langSelect');
+    select.addEventListener('change', (e) => {
+      const lang = e.target.value;
+      const data = langData[lang];
+
+      // 标题与 hero
+      document.getElementById('appTitle').textContent = data.appTitle;
+      document.getElementById('heroTitle').textContent = data.heroTitle;
+      document.getElementById('heroText').textContent = data.heroText;
+
+      // 功能列表
+      document.getElementById('featuresTitle').textContent = data.featuresTitle;
+      const fl = document.getElementById('featureList');
+      fl.innerHTML = data.featureList.map(item => `<li>${item}</li>`).join('');
+
+      // 评论
+      document.getElementById('reviewTitle').textContent = data.reviewTitle;
+      document.getElementById('review1').textContent = data.reviews[0];
+      document.getElementById('review2').textContent = data.reviews[1];
+      document.getElementById('review3').textContent = data.reviews[2];
+
+      // 联系我们与版权
+      document.getElementById('contactTitle').textContent = data.contactTitle;
+      document.getElementById('contactText').innerHTML = data.contactText;
+      document.getElementById('copyright').textContent = data.copyright;
+    });
+
+    // （可选）默认语言可从 navigator.language 进行首选项判断
+    (function initLang(){
+      const userLang = navigator.language || navigator.userLanguage;
+      if(userLang && userLang.startsWith('en')){
+        select.value = 'en';
+        select.dispatchEvent(new Event('change'));
+      } else {
+        select.value = 'zh';
+        select.dispatchEvent(new Event('change'));
+      }
+    })();
   </script>
 </body>
 </html>
