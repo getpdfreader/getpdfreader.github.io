@@ -1,4 +1,4 @@
-# Updated at 2026/03/09 14:23:07
+# Updated at 2026/03/31 18:44:07
 
 # Admob
 google.com,pub-3928497305603055,DIRECT,f08c47fec0942fa0
@@ -423,3 +423,6 @@ apester.com,2212,RESELLER
 acexchange.co.kr,1562884725,RESELLER
 mman.kr,32102,RESELLER
 myfeature.tv,N1fNlXquFCVDX3gt6MJN,RESELLER
+
+# Facebook
+facebook.com,2403290579831579,DIRECT,c3e20eee3f780d68
